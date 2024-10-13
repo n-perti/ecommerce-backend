@@ -1,0 +1,36 @@
+### Get the list of commerces
+GET http://localhost:3000/api/commerces
+
+### Get a commerce by its CIF
+GET http://localhost:3000/api/commerces/A12345678
+
+### Save a new commerce
+POST http://localhost:3000/api/commerces
+Content-Type: application/json
+
+{
+  "name": "New Commerce",
+  "cif": "A12345678",
+  "address": "123 Fake Street",
+  "email": "newcommerce@example.com",
+  "phone": "123-456-7890",
+  "pageId": 1
+}
+
+### Update a commerce by its CIF
+PUT http://localhost:3000/api/commerces/A12345678
+Content-Type: application/json
+
+{
+  "name": "Updated Commerce",
+  "address": "742 Evergreen Terrace",
+  "email": "updatedcommerce@example.com",
+  "phone": "098-765-4321",
+  "pageId": 2
+}
+
+### Delete a commerce by its CIF (logical deletion)
+DELETE http://localhost:3000/api/commerces/A12345678?borrado=logico
+
+### Delete a commerce by its CIF (physical deletion)
+DELETE http://localhost:3000/api/commerces/A12345678?borrado=fisico
