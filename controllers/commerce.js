@@ -1,5 +1,6 @@
 const commerceModel = require("../models/nosql/commerce");
 
+// Get all commerces
 exports.getCommerces = async (req, res) => {
   try {
     const commerces = await commerceModel.find();
@@ -9,6 +10,7 @@ exports.getCommerces = async (req, res) => {
   }
 };
 
+// Get a commerce by CIF
 exports.getCommerceByCIF = async (req, res) => {
   try {
     const commerce = await commerceModel.findOne({ cif: req.params.cif });
@@ -18,6 +20,7 @@ exports.getCommerceByCIF = async (req, res) => {
   }
 };
 
+// Save a new commerce
 exports.saveCommerce = async (req, res) => {
   try {
     const commerce = new commerceModel(req.body);
@@ -28,6 +31,7 @@ exports.saveCommerce = async (req, res) => {
   }
 };
 
+// Update an existing commerce by CIF
 exports.updateCommerce = async (req, res) => {
   try {
     await commerceModel.findOneAndUpdate({ cif: req.params.cif }, req.body);
@@ -37,6 +41,7 @@ exports.updateCommerce = async (req, res) => {
   }
 };
 
+// Delete a commerce by CIF
 exports.deleteCommerce = async (req, res) => {
   try {
     await commerceModel.findOneAndDelete({ cif: req.params.cif });
