@@ -1,0 +1,63 @@
+### Get webCommerce by its CIF
+
+GET http://localhost:3000/api/webCommerce/A87654321
+
+### Save a new webCommerce with model data
+
+POST http://localhost:3000/api/webCommerce
+Content-Type: application/json
+
+{
+
+    "city": "Madrid",
+    "activity": "Retail",
+    "title": "My Web Commerce",
+    "summary": "This is a summary of my web commerce.",
+    "text": ["Introduction", "Details", "Conclusion"],
+    "usersReview": {
+        "scoring": 4.5,
+        "totalReviews": 100,
+        "review": "Great service!"
+    },
+    "commerceCIF": "A87654321"
+}
+
+### Update a webCommerce by its CIF
+
+PUT http://localhost:3000/api/webCommerce/A12345678
+Content-Type: application/json
+
+{
+    "city": "Madrid",
+    "activity": "Retail",
+    "title": "My Web Commerce",
+    "summary": "This is a summary of my web commerce.",
+    "text": ["Introduction", "Details", "Conclusion"],
+    "image": ["image1.jpg", "image2.jpg"],
+    "usersReview": {
+        "scoring": 4.5,
+        "totalReviews": 100,
+        "review": "Great service!"
+    },
+    "commerceCIF": "A12345678"
+}
+
+
+### Archive a webCommerce by its CIF
+
+DELETE http://localhost:3000/api/webCommerce/A87654321?action=archive
+
+### Delete a webCommerce by its CIF
+
+DELETE http://localhost:3000/api/webCommerce/A87654321?action=delete
+
+### Upload an image to a webCommerce
+PATCH http://localhost:3000/api/webCommerce/A87654321/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="example.jpg"
+Content-Type: image/jpeg
+
+< /Users/nicolaspertierra/Developer/2CEB/2CEB/Fullstack_web_programming/server/mvc_commerce/images/image_1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
