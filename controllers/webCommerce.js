@@ -1,5 +1,7 @@
 const webCommerceModel = require("../models/nosql/webCommerce");
 const path = require("path");
+const { matchedData } = require("express-validator");
+const { notifySlack } = require("../utils/slackNotifier");
 
 /*
 Visit website by id
@@ -9,36 +11,40 @@ Archive a website (logical delete)
 Delete a website (physical delete)
 */
 
-// Visit website by commerceCIF
-
-exports.getWebCommerce = async (req, res) => {
+exports.getWebCommerceByCIF = async (req, res) => {
   try {
     const webCommerce = await webCommerceModel.findOne({
-      commerceCIF: req.params.commerceCIF,
+      commerceCIF: req.commerce.cif,
     });
     if (!webCommerce) {
       return res.status(404).json({ message: "Web Commerce not found" });
     }
     res.json(webCommerce);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Error in getWebCommerce",
-    });
+    res.status
+      .status(500)
+      .json({ message: "Error in getWebCommerceByCIF", error });
+    
+    notifySlack(`Error getting web commerce by CIF: ${error}`);
   }
 };
 
-// Create a new website (with model data)
 
 exports.createWebCommerce = async (req, res) => {
   try {
-    const webCommerce = await webCommerceModel.create(req.body);
-    res.json(webCommerce);
+    const data = matchedData(req);
+    const commerceCIF = req.commerce.cif;
+
+    if (data.commerceCIF !== commerceCIF) {
+      return res.status(403).send("CIF does not match the authorized commerce");
+    }
+
+    const webCommerce = new webCommerceModel(data);
+    await webCommerce.save();
+    res.json({ message: "WebCommerce created", webCommerce });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Error in createWebCommerce",
-    });
+    res.status(500).send(error);
+    notifySlack(`Error saving web commerce: ${error}`);
   }
 };
 
@@ -47,7 +53,7 @@ exports.createWebCommerce = async (req, res) => {
 exports.updateWebCommerce = async (req, res) => {
   try {
     const updatedWebCommerce = await webCommerceModel.findOneAndUpdate(
-      { commerceCIF: req.params.commerceCIF },
+      { commerceCIF: req.commerce.cif },
       req.body,
       { new: true }
     );
@@ -59,7 +65,8 @@ exports.updateWebCommerce = async (req, res) => {
     console.log(error);
     res.status(500).json({
       message: "Error in updateWebCommerce",
-    });
+    })
+    notifySlack(`Error updating web commerce: ${error}`);
   }
 };
 
@@ -67,30 +74,33 @@ exports.updateWebCommerce = async (req, res) => {
 
 exports.archiveOrDeleteWebCommerce = async (req, res) => {
   try {
-    const { commerceCIF } = req.params;
     const { action } = req.query;
 
-    const webCommerce = await webCommerceModel.findOne({ commerceCIF });
+    const webCommerce = await webCommerceModel.findOne({
+      commerceCIF: req.commerce.cif,
+    });
     if (!webCommerce) {
       return res.status(404).json({ message: "Web Commerce not found" });
     }
 
     if (action === "archive") {
       await webCommerceModel.findOneAndUpdate(
-        { commerceCIF },
+        { commerceCIF: req.commerce.cif },
         { isArchived: true },
         { new: true }
       );
       res.json({ message: "WebCommerce archived" });
-
     } else if (action === "delete") {
-      await webCommerceModel.findOneAndDelete({ commerceCIF });
+      await webCommerceModel.findOneAndDelete({
+        commerceCIF: req.commerce.cif,
+      });
       res.json({ message: "WebCommerce deleted" });
     } else {
       res.status(400).json({ message: "Invalid action" });
     }
   } catch (error) {
     res.status(500).send(error);
+    notifySlack(`Error archiving or deleting web commerce: ${error}`);
   }
 };
 
@@ -98,27 +108,22 @@ exports.archiveOrDeleteWebCommerce = async (req, res) => {
 
 exports.uploadImage = async (req, res) => {
   try {
-    const { commerceCIF } = req.params;
-    const imageUrl = path.join('/storage', req.file.filename);
+    const imageUrl = path.join("/storage", req.file.filename);
 
-    console.log(`Uploading image for commerceCIF: ${commerceCIF}`);
+    console.log(`Uploading image for commerceCIF: ${req.commerce.cif}`);
     console.log(`Image URL: ${imageUrl}`);
 
     const webCommerce = await webCommerceModel.findOneAndUpdate(
-      { commerceCIF },
+      { commerceCIF: req.commerce.cif },
       { $push: { images: imageUrl } },
       { new: true }
     );
-
-    if (!webCommerce) {
-      console.log('WebCommerce not found');
-      return res.status(404).json({ message: 'WebCommerce not found' });
-    }
-
-    console.log('Image uploaded successfully');
-    res.json({ message: 'Image uploaded successfully', webCommerce });
+    res.json(webCommerce);
   } catch (error) {
-    console.error(`Error uploading image: ${error.message}`);
-    res.status(500).send(error);
+    console.log(error);
+    res.status(500).json({
+      message: "Error in uploadImage",
+    });
+    notifySlack(`Error uploading image: ${error}`);
   }
 };

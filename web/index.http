@@ -1,16 +1,17 @@
 ### Get the list of commerces
-GET http://localhost:3000/api/commerces
-
+GET http://localhost:3000/api/commerces/view-all
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDI0MTIxMCwiZXhwIjoxNzMwMjQ4NDEwfQ._GlKlx2Q3a0VU23sb8wG-hRt18kHd3vrLR2HIdM6qkU
 ### Get a commerce by its CIF
-GET http://localhost:3000/api/commerces/A12345678
+GET http://localhost:3000/api/commerces/view/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDI0MTMwNywiZXhwIjoxNzMwMjQ4NTA3fQ.cYUGVdiJ2IGZs9kwIaAEobBFQ4IYL4iiMLEznFTRu8Q
 
-### Save a new commerce
-POST http://localhost:3000/api/commerces
+POST http://localhost:3000/api/commerces/create/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDIwMjgxNywiZXhwIjoxNzMwMjEwMDE3fQ.nc7lihRYsjJUtrePzFaWZ_yAbtU9p6NI3sHY6FW5dtQ
 Content-Type: application/json
 
 {
   "name": "New Commerce",
-  "cif": "A87654321",
+  "cif": "A87654324",
   "address": "123 Fake Street",
   "email": "newcommerce@example.com",
   "phone": "123-456-7890",
@@ -18,7 +19,8 @@ Content-Type: application/json
 }
 
 ### Update a commerce by its CIF
-PUT http://localhost:3000/api/commerces/A12345678
+PUT http://localhost:3000/api/commerces/update/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDIxMDc4MywiZXhwIjoxNzMwMjE3OTgzfQ.N8Wa20zaPo3iVjBVYcnu7hWJRyA1Y9brbmXKefPBZ5I
 Content-Type: application/json
 
 {
@@ -30,7 +32,9 @@ Content-Type: application/json
 }
 
 ### Delete a commerce by its CIF (logical deletion)
-DELETE http://localhost:3000/api/commerces/A12345678?borrado=logico
+DELETE http://localhost:3000/api/commerces/delete/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDE4ODY5MCwiZXhwIjoxNzMwMTk1ODkwfQ.qMYnnKSVbRqRbB3kLOMtj72hMIf-LcKPtYTIvGIAWQ0
 
-### Delete a commerce by its CIF (physical deletion)
-DELETE http://localhost:3000/api/commerces/A12345678?borrado=fisico
+###
+GET http://localhost:3000/api/users/interested
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDE3NTUsImV4cCI6MTczMDI0ODk1NX0.5MAbShNhxgl93Ec0_NEjfRySjFRFVpNY4MYVMkzzoyo

@@ -1,0 +1,42 @@
+### Register a new user
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "name": "John Doe123",
+  "email": "john123@example.com",
+  "password": "password123",
+  "age": 30,
+  "city": "New York",
+  "interest": "Retail",
+  "allowOffers": true
+}
+
+### Login a user
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "john123@example.com",
+  "password": "password123"
+}
+
+### Update user details (requires JWT token)
+PUT http://localhost:3000/api/users/update
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjE2NmEyNjZmNGYxZjYyNTdmNGI3ZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMjQyMjQzLCJleHAiOjE3MzAyNDk0NDN9.bpUvQqSHgbPRZLtrN1jHcFQmQiJ3ZLDuNG1VHabzb2o
+Content-Type: application/json
+
+{
+  "name": "John Updated",
+  "city": "Los Angeles",
+  "interest": "Retaild",
+  "allowOffers": true
+}
+
+### Delete user (requires JWT token)
+DELETE http://localhost:3000/api/users/delete
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWZhZTVlNmJiMjliZDhhNWE5NjRlZiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMTI5NTAzLCJleHAiOjE3MzAxMzY3MDN9.vpKod8XjT7bV2hMXZNoKwH5YD8DPnJ_EiC8huRBm8qE
+
+###
+GET http://localhost:3000/api/users/interest
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDIwODcsImV4cCI6MTczMDI0OTI4N30.8XXKMSC5-vJkcGHBvomVRPko2XkY0aZCt_uRNPAnkTc

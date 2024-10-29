@@ -1,5 +1,6 @@
 ### Get the list of commerces
-GET http://localhost:3000/api/commerces
+GET http://localhost:3000/api/commerces/view-all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWU0ZTMxYWUwZjRhYWIyYjU0OGFmYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDEyNjUzNywiZXhwIjoxNzMwMTMzNzM3fQ.zIRzpGFBeflxE-5XxwPrXKOU7IEfTJWENaokGlGllQg
 
 ### Get a commerce by its CIF
 GET http://localhost:3000/api/commerces/A12345678
