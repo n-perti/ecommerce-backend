@@ -116,6 +116,33 @@ router.put("/users/update", authMiddleware, userUpdateValidator, updateUser);
  */
 router.delete("/users/delete", authMiddleware, deleteUser);
 
+
+/**
+ * @swagger
+ *  /users/interest:
+ *    get:
+ *      summary: Get emails of interested users
+ *      description: Returns a list of emails of users interested in the commerce's activity.
+ *      tags:
+ *        - Users
+ *      security:
+ *        - bearerAuth: []
+ *      responses:
+ *        '200':
+ *          description: A list of user emails
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                items:
+ *                  type: string
+ *        '400':
+ *          description: Bad Request
+ *        '401':
+ *          description: Unauthorized
+ *        '404':
+ *          description: Not Found
+ */
 router.get("/users/interest", commerceMiddleware, getInterestedUsersEmails);
 
 module.exports = router;
