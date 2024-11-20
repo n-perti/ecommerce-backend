@@ -1,10 +1,13 @@
 ### Get the list of commerces
 GET http://localhost:3000/api/commerces/view-all
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDI0MTIxMCwiZXhwIjoxNzMwMjQ4NDEwfQ._GlKlx2Q3a0VU23sb8wG-hRt18kHd3vrLR2HIdM6qkU
-### Get a commerce by its CIF
-GET http://localhost:3000/api/commerces/view/A87654324
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDI0MTMwNywiZXhwIjoxNzMwMjQ4NTA3fQ.cYUGVdiJ2IGZs9kwIaAEobBFQ4IYL4iiMLEznFTRu8Q
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMjAyODczMCwiZXhwIjoxNzMyMDM1OTMwfQ.KTmaW4DqbIcpagi1qbx043_PHG7dPT5x-9XUZHUjc1s
 
+###
+GET http://localhost:3000/api/commerces/view/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMjAyODY2NSwiZXhwIjoxNzMyMDM1ODY1fQ.4VdIaqnhpPXl-knd7dEgDtrM_aWfJSv-icOC43KctFA
+
+
+### Get a commerce by its CIF
 POST http://localhost:3000/api/commerces/create/
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMDIwMjgxNywiZXhwIjoxNzMwMjEwMDE3fQ.nc7lihRYsjJUtrePzFaWZ_yAbtU9p6NI3sHY6FW5dtQ
 Content-Type: application/json
@@ -38,3 +41,58 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAw
 ###
 GET http://localhost:3000/api/users/interested
 Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDE3NTUsImV4cCI6MTczMDI0ODk1NX0.5MAbShNhxgl93Ec0_NEjfRySjFRFVpNY4MYVMkzzoyo
+
+### Create 3 new commerces
+POST http://localhost:3000/api/commerces/create/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTg2NzMwNSwiZXhwIjoxNzMxODc0NTA1fQ.mfNyf3Q6-I38JXmoEU_gY2iVelUbg10r2YBTkIM_eLE
+Content-Type: application/json
+
+{
+  "name": "Commerce",
+  "cif": "A12345678",
+  "address": "123 Commerce Street",
+  "email": "commerce1@example.com",
+  "phone": "111-11-1111",
+  "pageId": 4
+}
+###
+POST http://localhost:3000/api/commerces/create/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTg2NzMwNSwiZXhwIjoxNzMxODc0NTA1fQ.mfNyf3Q6-I38JXmoEU_gY2iVelUbg10r2YBTkIM_eLE
+Content-Type: application/json
+
+{
+  "name": "Commerce 2",
+  "cif": "A23456789",
+  "address": "234 Commerce Street",
+  "email": "commerce2@example.com",
+  "phone": "222-222-2222",
+  "pageId": 2
+}
+###
+POST http://localhost:3000/api/commerces/create/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBMzQ1Njc4OTAiLCJpYXQiOjE3MzE4Njc5MDEsImV4cCI6MTczMTg3NTEwMX0.j0YnfAO9cyDJKdItsVJuobpWLUQMYWkxi-3rDebPK_w
+
+{
+  "name": "Commerce 3",
+  "cif": "A34567890",
+  "address": "345 Commerce Street",
+  "email": "commerce3@example.com",
+  "phone": "333-333-3333",
+  "pageId": 3
+}
+
+
+### Update a webCommerce by its CIF
+
+PUT http://localhost:3000/api/webCommerce/update/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyMzM5MTIsImV4cCI6MTczMDI0MTExMn0.j8tlUbUYuaaCSKlNyvZlYNAyRS4xDK6nw_PyaLa0xX0
+Content-Type: application/json
+
+{
+    "city": "Madridd",
+    "activity": "Retaild",
+    "title": "My Web Commerce",
+    "summary": "This is a summary of my web commerce.",
+    "text": ["Introduction", "Details", "Conclusionn"],
+    "isArchived": false
+}

@@ -16,7 +16,7 @@ const handleValidator = require('../utils/handleValidator');
 
 /**
  * @swagger
- * /webCommerce/view/{commerceCIF}:
+ * /api/webCommerce/view/{commerceCIF}:
  *   get:
  *     summary: Get webCommerce by CIF
  *     tags: [WebCommerce]
@@ -43,7 +43,7 @@ router.get('/webCommerce/view/:commerceCIF', commerceMiddleware, validateGetWebC
 
 /**
  * @swagger
- * /webCommerce/create:
+ * /api/webCommerce/create:
  *   post:
  *     summary: Create a new webCommerce
  *     tags: [WebCommerce]
@@ -90,7 +90,7 @@ router.post('/webCommerce/create', commerceMiddleware, validateCreateWebCommerce
 
 /**
  * @swagger
- * /webCommerce/update/{commerceCIF}:
+ * /api/webCommerce/update/{commerceCIF}:
  *   put:
  *     summary: Update a webCommerce by CIF
  *     tags: [WebCommerce]
@@ -137,7 +137,7 @@ router.put('/webCommerce/update/:commerceCIF', commerceMiddleware, validateUpdat
 
 /**
  * @swagger
- * /webCommerce/{commerceCIF}:
+ * /api/webCommerce/{commerceCIF}:
  *   delete:
  *     summary: Archive or delete a webCommerce by CIF
  *     tags: [WebCommerce]
@@ -170,7 +170,7 @@ router.delete('/webCommerce/:commerceCIF', commerceMiddleware, validateArchiveOr
 
 /**
  * @swagger
- * /webCommerce/upload/{commerceCIF}:
+ * /api/webCommerce/upload/{commerceCIF}:
  *   patch:
  *     summary: Upload an image for a webCommerce by CIF
  *     tags: [WebCommerce]
@@ -202,5 +202,59 @@ router.delete('/webCommerce/:commerceCIF', commerceMiddleware, validateArchiveOr
  *         description: WebCommerce not found
  */
 router.patch('/webCommerce/upload/:commerceCIF', commerceMiddleware, validateUploadWebCommerceImage, handleValidator, upload.single('image'), webCommerceController.uploadImage);
+
+/**
+ * @swagger
+ * /api/webcommerces/all:
+ *   get:
+ *     summary: Get all webCommerces
+ *     tags: [WebCommerce]
+ *     responses:
+ *       200:
+ *         description: WebCommerces retrieved successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: WebCommerces not found
+ */
+router.get('/webcommerces/all', webCommerceController.getAllWebCommerces);
+
+/**
+ * @swagger
+ * /api/webCommerce/review/{commerceCIF}:
+ *   post:
+ *     summary: Create a review for a webCommerce
+ *     tags: [WebCommerce]
+ *     parameters:
+ *       - in: path
+ *         name: commerceCIF
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The CIF of the webCommerce
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               review:
+ *                 type: string
+ *               rating:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Review created successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: WebCommerce not found
+ */
+router.post('/webcommerces/review/:commerceCIF', webCommerceController.createReview);
 
 module.exports = router;

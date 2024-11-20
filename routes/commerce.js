@@ -22,7 +22,7 @@ const {
 
 /**
  * @swagger
- * /commerces/view-all:
+ * /api/commerces/view-all:
  *   get:
  *     summary: View all commerces
  *     tags: [Commerce]
@@ -45,7 +45,7 @@ router.get(
 
 /**
  * @swagger
- * /commerces/view/{cif}:
+ * /api/commerces/view/{cif}:
  *   get:
  *     summary: View a commerce by CIF
  *     tags: [Commerce]
@@ -78,7 +78,7 @@ router.get(
 
 /**
  * @swagger
- * /commerces/create:
+ * /api/commerces/create:
  *   post:
  *     summary: Create a new commerce
  *     tags: [Commerce]
@@ -124,7 +124,7 @@ router.post(
 
 /**
  * @swagger
- * /commerces/update/{cif}:
+ * /api/commerces/update/{cif}:
  *   put:
  *     summary: Update a commerce by CIF
  *     tags: [Commerce]
@@ -172,7 +172,7 @@ router.put(
 
 /**
  * @swagger
- * /commerces/delete/{cif}:
+ * /api/commerces/delete/{cif}:
  *   delete:
  *     summary: Delete a commerce by CIF
  *     tags: [Commerce]

@@ -1,3 +1,4 @@
+const { json } = require('express');
 const mongoose = require('mongoose');
 
 /* webCommerce scheme
@@ -41,15 +42,24 @@ const webCommerce = new mongoose.Schema({
     usersReview: {
         scoring: {
             type: Number,
-            required: true,
+            required: false,
+            default: 0
         },
         totalReviews: {
             type: Number,
-            required: true,
+            required: false,
+            default: 0
         },
         review: {
-            type: String,
-            required: true,
+            type: [
+                {
+                    review: String,
+                    rating: Number,
+                    date: { type: Date, default: Date.now }
+                }
+            ],
+            required: false,
+            default: []
         }
     },
     isArchived: {

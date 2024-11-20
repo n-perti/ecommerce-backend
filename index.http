@@ -35,3 +35,18 @@ DELETE http://localhost:3000/api/commerces/A12345678?borrado=logico
 
 ### Delete a commerce by its CIF (physical deletion)
 DELETE http://localhost:3000/api/commerces/A12345678?borrado=fisico
+###
+
+GET http://localhost:3000/api/webcommerces/all
+
+
+###
+
+POST http://localhost:3000/api/webcommerces/review/A87654324
+
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "review": "Great service!"
+}

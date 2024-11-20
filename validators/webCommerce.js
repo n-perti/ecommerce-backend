@@ -19,21 +19,13 @@ const validateCreateWebCommerce = [
     .matches(/^[A-Z0-9]+$/)
     .withMessage("CIF must contain only uppercase letters and numbers"),
 
-  check("city")
-    .notEmpty()
-    .withMessage("City is required"),
+  check("city").notEmpty().withMessage("City is required"),
 
-  check("activity")
-    .notEmpty()
-    .withMessage("Activity is required"),
+  check("activity").notEmpty().withMessage("Activity is required"),
 
-  check("title")
-    .notEmpty()
-    .withMessage("Title is required"),
+  check("title").notEmpty().withMessage("Title is required"),
 
-  check("summary")
-    .notEmpty()
-    .withMessage("Summary is required"),
+  check("summary").notEmpty().withMessage("Summary is required"),
 
   check("text")
     .isArray()
@@ -46,21 +38,40 @@ const validateCreateWebCommerce = [
     .isArray()
     .withMessage("Images must be an array of strings"),
 
+  check("usersReview")
+    .optional()
+    .isObject()
+    .withMessage("usersReview debe ser un objeto"),
+
   check("usersReview.scoring")
+    .optional()
     .isNumeric()
-    .withMessage("Scoring must be a number")
-    .notEmpty()
-    .withMessage("Scoring is required"),
+    .withMessage("scoring debe ser un número"),
 
   check("usersReview.totalReviews")
+    .optional()
     .isNumeric()
-    .withMessage("Total Reviews must be a number")
-    .notEmpty()
-    .withMessage("Total Reviews is required"),
+    .withMessage("totalReviews debe ser un número"),
 
   check("usersReview.review")
-    .notEmpty()
-    .withMessage("Review is required"),
+    .optional()
+    .isArray()
+    .withMessage("review debe ser un arreglo"),
+
+  check("usersReview.review.*.review")
+    .optional()
+    .isString()
+    .withMessage("El campo review debe ser una cadena de texto"),
+
+  check("usersReview.review.*.rating")
+    .optional()
+    .isNumeric()
+    .withMessage("El campo rating debe ser un número"),
+
+  check("usersReview.review.*.date")
+    .optional()
+    .isISO8601()
+    .withMessage("El campo date debe ser una fecha válida"),
 
   check("isArchived")
     .optional()
@@ -77,25 +88,13 @@ const validateUpdateWebCommerce = [
     .matches(/^[A-Z0-9]+$/)
     .withMessage("CIF must contain only uppercase letters and numbers"),
 
-  check("city")
-    .optional()
-    .notEmpty()
-    .withMessage("City is required"),
+  check("city").optional().notEmpty().withMessage("City is required"),
 
-  check("activity")
-    .optional()
-    .notEmpty()
-    .withMessage("Activity is required"),
+  check("activity").optional().notEmpty().withMessage("Activity is required"),
 
-  check("title")
-    .optional()
-    .notEmpty()
-    .withMessage("Title is required"),
+  check("title").optional().notEmpty().withMessage("Title is required"),
 
-  check("summary")
-    .optional()
-    .notEmpty()
-    .withMessage("Summary is required"),
+  check("summary").optional().notEmpty().withMessage("Summary is required"),
 
   check("text")
     .optional()

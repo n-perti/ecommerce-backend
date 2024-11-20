@@ -1,11 +1,11 @@
 ### Get webCommerce by its CIF
 
 GET http://localhost:3000/api/webCommerce/view/A87654324
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDEzMjIsImV4cCI6MTczMDI0ODUyMn0.wipECrX9T78kr87el7z6_SSTIHsRZfapIr7dBUpSOdo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzIwMjkwMTksImV4cCI6MTczMjAzNjIxOX0.QOUytycx6ivej1y0TDbGb4rEUD9psi_1JcoP_4UAUgU
 
 ### Save a new webCommerce with model data
 POST http://localhost:3000/api/webCommerce/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyMzM5MTIsImV4cCI6MTczMDI0MTExMn0.j8tlUbUYuaaCSKlNyvZlYNAyRS4xDK6nw_PyaLa0xX0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzE5MjMxMTMsImV4cCI6MTczMTkzMDMxM30.uJuNG_opPsmkudruePjCDW1HWmYj-1jpHeayUWrz1ag
 Content-Type: application/json
 
 {
@@ -14,11 +14,6 @@ Content-Type: application/json
     "title": "My Web Commerce",
     "summary": "This is a summary of my web commerce.",
     "text": ["Introduction", "Details", "Conclusion"],
-    "usersReview": {
-        "scoring": 4.5,
-        "totalReviews": 100,
-        "review": "Great service!"
-    },
     "commerceCIF": "A87654324"
 }
 
@@ -47,7 +42,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJp
 ### Delete a webCommerce by its CIF
 
 DELETE http://localhost:3000/api/webCommerce/A87654321?action=delete
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyMTg3NDgsImV4cCI6MTczMDIyNTk0OH0.LW5-nLYiMR0zDoH6acU9qEZF_3Sy6uL9MGWY8ChdfSU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjE2NmEyNjZmNGYxZjYyNTdmNGI3ZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMxNjk4MjQxLCJleHAiOjE3MzE3MDU0NDF9.EzBY9UdPo6y-aZTGel7WEHsBIILaos3l7mssa_A9aPs
 
 
 ### Upload an image to a webCommerce
@@ -61,3 +56,4 @@ Content-Type: image/jpeg
 
 < /Users/nicolaspertierra/Developer/2CEB/2CEB/Fullstack_web_programming/server/mvc_commerce/images/image_1.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+

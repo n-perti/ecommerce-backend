@@ -127,3 +127,56 @@ exports.uploadImage = async (req, res) => {
     notifySlack(`Error uploading image: ${error}`);
   }
 };
+
+// All webcommerces
+
+exports.getAllWebCommerces = async (req, res) => {
+  try {
+    const webCommerces = await webCommerceModel.find();
+    res.json(webCommerces);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error in getAllWebCommerces",
+    });
+    notifySlack(`Error getting all web commerces: ${error}`);
+  }
+}
+
+exports.createReview = async (req, res) => {
+  try {
+    const { review, rating } = req.body;
+    const commerceCIF = req.params.commerceCIF;
+
+    const webCommerce = await webCommerceModel.findOne({
+      commerceCIF: commerceCIF,
+    });
+    if (!webCommerce) {
+      return res.status(404).json({ message: "Web Commerce not found" });
+    }
+
+    // Add the new review
+    const newReview = {
+      review,
+      rating,
+      date: new Date(),
+    };
+    webCommerce.usersReview.review.push(newReview);
+
+    // Recalculate the average rating
+    const totalRatings = webCommerce.usersReview.review.length;
+    const totalRatingSum = webCommerce.usersReview.review.reduce(
+      (acc, review) => acc + review.rating,
+      0
+    );
+    const newAverageRating = totalRatingSum / totalRatings;
+
+    webCommerce.usersReview.scoring = newAverageRating;
+    webCommerce.usersReview.totalReviews = totalRatings;
+
+    await webCommerce.save();
+    res.json({ message: "Review added", webCommerce });
+  } catch (error) {
+    res.status(500).json({ message: "Error in createReview" });
+    notifySlack(`Error creating review: ${error}`);
+  }
+};

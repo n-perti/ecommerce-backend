@@ -17,7 +17,7 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "john123@example.com",
+  "email": "john2@example.com",
   "password": "password123"
 }
 
@@ -40,3 +40,13 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWZhZTVlNmJiMjli
 ###
 GET http://localhost:3000/api/users/interest
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDIwODcsImV4cCI6MTczMDI0OTI4N30.8XXKMSC5-vJkcGHBvomVRPko2XkY0aZCt_uRNPAnkTc
+
+### Create a webcommerce review
+POST http://localhost:3000/api/webcommerces/review/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTkyNDAwNiwiZXhwIjoxNzMxOTMxMjA2fQ.gmIIM1O68q_2rJHbrhQYTyTcdfZeq26uwjWhxXJsPzg
+Content-Type: application/json
+
+{
+  "review": "This is normal commerce!",
+  "rating": 2
+}

@@ -11,7 +11,8 @@ const {
   loginUser,
   updateUser,
   deleteUser,
-  getInterestedUsersEmails
+  getInterestedUsersEmails,
+  getUserDetail
 } = require("../controllers/user");
 
 /**
@@ -25,7 +26,7 @@ router.post("/users/register", userCreationValidator, registerUser);
 
 /**
  * @swagger
- * /users/login:
+ * /api/users/login:
  *   post:
  *     summary: Login a user
  *     tags: [Users]
@@ -100,7 +101,7 @@ router.put("/users/update", authMiddleware, userUpdateValidator, updateUser);
 
 /**
  * @swagger
- * /users/delete:
+ * /api/users/delete:
  *   delete:
  *     summary: Delete a user
  *     tags: [Users]
@@ -144,5 +145,44 @@ router.delete("/users/delete", authMiddleware, deleteUser);
  *          description: Not Found
  */
 router.get("/users/interest", commerceMiddleware, getInterestedUsersEmails);
+
+
+/**
+ * @swagger
+ * /api/users/details:
+ *   get:
+ *     summary: Get user details
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                 age:
+ *                   type: number
+ *                 city:
+ *                   type: string
+ *                 interest:
+ *                   type: string
+ *                 allowOffers:
+ *                   type: boolean
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: User not found
+ */
+router.get("/users/details", authMiddleware, getUserDetail);
 
 module.exports = router;

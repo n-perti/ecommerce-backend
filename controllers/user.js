@@ -47,6 +47,10 @@ const updateUser = async (req, res) => {
 
   if (updates.role) return res.status(403).send("Cannot update role");
 
+  if (updates.password) {
+    const hashedPassword = await bcrypt.hash(updates.password, 10);
+    updates.password = hashedPassword;}
+
   try {
     const user = await User.findById(id);
     if (!user) return res.status(404).send("User not found");
@@ -106,10 +110,18 @@ const getInterestedUsersEmails = async (req, res) => {
   }
 };
 
+const getUserDetail = async (req, res) => {
+  const { id } = req.user;
+  const userDetail = await User.findById(id);
+  if (!userDetail) return res.status(404).send("User not found");
+  res.send(userDetail);
+};
+
 module.exports = {
   registerUser,
   loginUser,
   updateUser,
   deleteUser,
   getInterestedUsersEmails,
+  getUserDetail,
 };
