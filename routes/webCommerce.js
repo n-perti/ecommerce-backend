@@ -255,6 +255,6 @@ router.get('/webcommerces/all', webCommerceController.getAllWebCommerces);
  *       404:
  *         description: WebCommerce not found
  */
-router.post('/webcommerces/review/:commerceCIF', webCommerceController.createReview);
+router.post('/webcommerces/review/:commerceCIF', handleValidator,webCommerceController.createReview);
 
 module.exports = router;

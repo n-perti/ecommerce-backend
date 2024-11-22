@@ -1,5 +1,5 @@
-const { check, validationResult } = require("express-validator");
-const User = require("../models/nosql/users"); // Make sure to adjust the path to your User model
+// validators/user.js
+const { check } = require("express-validator");
 
 const userCreationValidator = [
   check("name").notEmpty().withMessage("Name is required"),
@@ -11,12 +11,6 @@ const userCreationValidator = [
   check("city").notEmpty().withMessage("City is required"),
   check("interest").notEmpty().withMessage("Interest is required"),
   check("allowOffers").isBoolean().withMessage("AllowOffers must be a boolean"),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
-    next();
-  },
 ];
 
 const userUpdateValidator = [
@@ -33,12 +27,6 @@ const userUpdateValidator = [
     .optional()
     .isBoolean()
     .withMessage("AllowOffers must be a boolean"),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
-    next();
-  },
 ];
 
 const userLoginValidator = [
@@ -46,18 +34,10 @@ const userLoginValidator = [
   check("password")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long"),
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
-
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(400).json({ errors: [{ msg: "Email does not exist" }] });
-    }
-
-    next();
-  },
 ];
 
-module.exports = { userCreationValidator, userUpdateValidator, userLoginValidator};
+module.exports = {
+  userCreationValidator,
+  userUpdateValidator,
+  userLoginValidator,
+};

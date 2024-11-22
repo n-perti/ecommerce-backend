@@ -3,17 +3,22 @@ const router = express.Router();
 const {
   userCreationValidator,
   userUpdateValidator,
-  userLoginValidator
+  userLoginValidator,
 } = require("../validators/user");
-const { authMiddleware, commerceMiddleware } = require("../middlewares/authMiddleware");
+const {
+  authMiddleware,
+  commerceMiddleware,
+} = require("../middlewares/authMiddleware");
 const {
   registerUser,
   loginUser,
   updateUser,
   deleteUser,
   getInterestedUsersEmails,
-  getUserDetail
+  getUserDetail,
 } = require("../controllers/user");
+
+const handleValidator = require("../utils/handleValidator");
 
 /**
  * @swagger
@@ -21,8 +26,7 @@ const {
  *   name: Users
  *   description: User management
  */
-router.post("/users/register", userCreationValidator, registerUser);
-
+router.post("/users/register", userCreationValidator, handleValidator, registerUser);
 
 /**
  * @swagger
@@ -52,8 +56,7 @@ router.post("/users/register", userCreationValidator, registerUser);
  *       400:
  *         description: Invalid email or password
  */
-router.post("/users/login", userLoginValidator, loginUser);
-
+router.post("/users/login", userLoginValidator, handleValidator, loginUser);
 
 /**
  * @swagger
@@ -96,8 +99,7 @@ router.post("/users/login", userLoginValidator, loginUser);
  *       404:
  *         description: User not found
  */
-router.put("/users/update", authMiddleware, userUpdateValidator, updateUser);
-
+router.put("/users/update", authMiddleware, userUpdateValidator, handleValidator, updateUser);
 
 /**
  * @swagger
@@ -115,8 +117,7 @@ router.put("/users/update", authMiddleware, userUpdateValidator, updateUser);
  *       404:
  *         description: User not found
  */
-router.delete("/users/delete", authMiddleware, deleteUser);
-
+router.delete("/users/delete", authMiddleware, handleValidator, deleteUser);
 
 /**
  * @swagger
@@ -144,8 +145,7 @@ router.delete("/users/delete", authMiddleware, deleteUser);
  *        '404':
  *          description: Not Found
  */
-router.get("/users/interest", commerceMiddleware, getInterestedUsersEmails);
-
+router.get("/users/interest", commerceMiddleware, handleValidator, getInterestedUsersEmails);
 
 /**
  * @swagger
@@ -183,6 +183,6 @@ router.get("/users/interest", commerceMiddleware, getInterestedUsersEmails);
  *       404:
  *         description: User not found
  */
-router.get("/users/details", authMiddleware, getUserDetail);
+router.get("/users/details", authMiddleware, handleValidator, getUserDetail);
 
 module.exports = router;
