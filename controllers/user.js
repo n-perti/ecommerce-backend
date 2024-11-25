@@ -86,8 +86,6 @@ const getInterestedUsersEmails = async (req, res) => {
     const commerce = await Commerce.findOne({ cif });
     if (!commerce) return res.status(404).send("Commerce not found");
 
-    const commerceId = commerce._id;
-
     // Buscar la actividad del comercio en webCommerce
     const webCommerce = await WebCommerce.findOne({ commerceCIF: cif });
     if (!webCommerce) return res.status(404).send("WebCommerce not found");
@@ -100,7 +98,6 @@ const getInterestedUsersEmails = async (req, res) => {
       interest: { $in: [commerceActivity] }, // Verificar si la actividad del usuario contiene la actividad del comercio
     }).select("email"); // Seleccionamos solo el campo email
 
-    console.log(users);
     const emails = users.map((user) => user.email);
 
     res.send(emails);
@@ -117,6 +114,26 @@ const getUserDetail = async (req, res) => {
   res.send(userDetail);
 };
 
+const updateUserInterest = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const userId = req.user.id;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { interest: data.interest },
+      { new: true }
+    );
+
+    if (!user) return res.status(404).send("User not found");
+
+    res.json({ message: "User interests updated", user });
+  } catch (error) {
+    res.status(400).send(error.message);
+    notifySlack(`Error updating user interests: ${error}`);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -124,4 +141,5 @@ module.exports = {
   deleteUser,
   getInterestedUsersEmails,
   getUserDetail,
+  updateUserInterest, // Add this line
 };

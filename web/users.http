@@ -3,8 +3,8 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-  "name": "John Doe123",
-  "email": "john123@example.com",
+  "name": "John Doe1234",
+  "email": "john12345@example.com",
   "password": "password123",
   "age": 30,
   "city": "New York",
@@ -39,11 +39,11 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWZhZTVlNmJiMjli
 
 ###
 GET http://localhost:3000/api/users/interest
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyNDIwODcsImV4cCI6MTczMDI0OTI4N30.8XXKMSC5-vJkcGHBvomVRPko2XkY0aZCt_uRNPAnkTc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzI1MzE1NjQsImV4cCI6MTczMjUzODc2NH0.gF4zZF7ezZUdpuqBKixku4EBViu2EV3LGtOpZwxf89U
 
 ### Create a webcommerce review
-POST http://localhost:3000/api/webcommerces/review/A87654324
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMTkyNDAwNiwiZXhwIjoxNzMxOTMxMjA2fQ.gmIIM1O68q_2rJHbrhQYTyTcdfZeq26uwjWhxXJsPzg
+POST http://localhost:3000/api/webCommerce/review/A87654324
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDFiNGUwMTM3MTQ5YTM5YmRlNmI3MSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMyNTI2MzA1LCJleHAiOjE3MzI1MzM1MDV9.9sVjOTWJsScw6eNDvClVW1c0N_FE3NYJBCeJxBvKG0o
 Content-Type: application/json
 
 {

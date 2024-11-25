@@ -1,4 +1,5 @@
-const { check, body } = require("express-validator");
+const { check, body, param } = require("express-validator");
+const webCommerceModel = require("../models/nosql/webCommerce");
 
 // Validate getWebCommercebyCIF
 
@@ -17,7 +18,13 @@ const validateCreateWebCommerce = [
     .isLength({ min: 8, max: 9 })
     .withMessage("CIF must be between 8 and 9 characters long")
     .matches(/^[A-Z0-9]+$/)
-    .withMessage("CIF must contain only uppercase letters and numbers"),
+    .withMessage("CIF must contain only uppercase letters and numbers")
+    .custom(async (value) => {
+      const existingWebCommerce = await webCommerceModel.findOne({ commerceCIF: value });
+      if (existingWebCommerce) {
+        return Promise.reject("WebCommerce with this CIF already exists");
+      }
+    }),
 
   check("city").notEmpty().withMessage("City is required"),
 
@@ -82,31 +89,18 @@ const validateCreateWebCommerce = [
 // Validate updateWebCommerce
 
 const validateUpdateWebCommerce = [
-  check("commerceCIF")
-    .isLength({ min: 8, max: 9 })
-    .withMessage("CIF must be between 8 and 9 characters long")
-    .matches(/^[A-Z0-9]+$/)
-    .withMessage("CIF must contain only uppercase letters and numbers"),
-
-  check("city").optional().notEmpty().withMessage("City is required"),
-
-  check("activity").optional().notEmpty().withMessage("Activity is required"),
-
+  // Exclude commerceCIF from being updated to prevent changing ownership
   check("title").optional().notEmpty().withMessage("Title is required"),
-
   check("summary").optional().notEmpty().withMessage("Summary is required"),
-
   check("text")
     .optional()
     .isArray()
-    .withMessage("Text must be an array")
-    .notEmpty()
-    .withMessage("Text is required"),
-
-  check("isArchived")
+    .withMessage("Text must be an array"),
+  check("images")
     .optional()
-    .isBoolean()
-    .withMessage("isArchived must be a boolean"),
+    .isArray()
+    .withMessage("Images must be an array of strings"),
+  // Do not include validation for usersReview fields
 ];
 
 const validateArchiveOrDeleteWebCommerce = [
@@ -132,10 +126,50 @@ const validateUploadWebCommerceImage = [
   check("image").optional().notEmpty().withMessage("Image cannot be empty"),
 ];
 
+const validateGetWebCommercesByCity = [
+  check('city')
+    .notEmpty()
+    .withMessage('City is required')
+    .isString()
+    .withMessage('City must be a string'),
+];
+
+// Validate createReview
+
+const validateCreateReview = [
+  param("commerceCIF")
+    .isLength({ min: 8, max: 9 })
+    .withMessage("CIF must be between 8 and 9 characters long")
+    .matches(/^[A-Z0-9]+$/)
+    .withMessage("CIF must contain only uppercase letters and numbers"),
+  check("review")
+    .notEmpty()
+    .withMessage("Review text is required")
+    .isString()
+    .withMessage("Review must be a string"),
+  check("rating")
+    .notEmpty()
+    .withMessage("Rating is required")
+    .isFloat({ min: 0, max: 5 })
+    .withMessage("Rating must be a number between 0 and 5"),
+];
+
+const validateGetWebCommercesByActivity = [
+  check('activity')
+    .notEmpty()
+    .withMessage('Activity is required')
+    .isString()
+    .withMessage('Activity must be a string'),
+];
+
+
 module.exports = {
   validateGetWebCommerceByCIF,
   validateCreateWebCommerce,
   validateUpdateWebCommerce,
   validateArchiveOrDeleteWebCommerce,
   validateUploadWebCommerceImage,
+  validateGetWebCommercesByCity,
+  validateCreateReview,
+  validateGetWebCommercesByActivity
 };

@@ -1,11 +1,11 @@
 ### Get webCommerce by its CIF
 
 GET http://localhost:3000/api/webCommerce/view/A87654324
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzIwMjkwMTksImV4cCI6MTczMjAzNjIxOX0.QOUytycx6ivej1y0TDbGb4rEUD9psi_1JcoP_4UAUgU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjA5MGMwMjZiMjAwM2Q0YzZjMzI2ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczMjUyOTc2MywiZXhwIjoxNzMyNTM2OTYzfQ.q10mheVXGETcgcdKP6mzU6f3cGeJ-fYZzzi-FpmET54
 
 ### Save a new webCommerce with model data
 POST http://localhost:3000/api/webCommerce/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzE5MjMxMTMsImV4cCI6MTczMTkzMDMxM30.uJuNG_opPsmkudruePjCDW1HWmYj-1jpHeayUWrz1ag
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzI1MzI1MzksImV4cCI6MTczMjUzOTczOX0.viQSgLV2i-9fb4sEw1DeV1Q94r1dxxZxFAJhG12TR98
 Content-Type: application/json
 
 {
@@ -19,8 +19,8 @@ Content-Type: application/json
 
 ### Update a webCommerce by its CIF
 
-PUT http://localhost:3000/api/webCommerce/update/A87654324
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzAyMzM5MTIsImV4cCI6MTczMDI0MTExMn0.j8tlUbUYuaaCSKlNyvZlYNAyRS4xDK6nw_PyaLa0xX0
+PUT http://localhost:3000/api/webCommerce/update/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBODc2NTQzMjQiLCJpYXQiOjE3MzI1MjA5NjgsImV4cCI6MTczMjUyODE2OH0.RCg_zT0RKXcncbRLLtNQ08gJklbxD-BUnWpsc2fdWMk
 Content-Type: application/json
 
 {

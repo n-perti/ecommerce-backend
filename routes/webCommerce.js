@@ -1,18 +1,29 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const upload = require('../middlewares/uploadMiddleware');
-const { commerceMiddleware } = require('../middlewares/authMiddleware');
-const { validateGetWebCommerceByCIF, validateCreateWebCommerce, validateUpdateWebCommerce, validateArchiveOrDeleteWebCommerce, validateUploadWebCommerceImage } = require('../validators/webCommerce');
-const webCommerceController = require('../controllers/webCommerce');
-const handleValidator = require('../utils/handleValidator');
+const upload = require("../middlewares/uploadMiddleware");
+const {
+  commerceMiddleware,
+  authMiddleware,
+} = require("../middlewares/authMiddleware");
+const {
+  validateGetWebCommercesByCity,
+  validateGetWebCommerceByCIF,
+  validateCreateWebCommerce,
+  validateUpdateWebCommerce,
+  validateArchiveOrDeleteWebCommerce,
+  validateUploadWebCommerceImage,
+  validateCreateReview,
+  validateGetWebCommercesByActivity,
+} = require("../validators/webCommerce");
+const webCommerceController = require("../controllers/webCommerce");
+const handleValidator = require("../utils/handleValidator");
 
 /**
  * @swagger
  * tags:
- *   name: Commerce
- *   description: Commerce management
+ *   name: WebCommerce
+ *   description: WebCommerce management
  */
-
 
 /**
  * @swagger
@@ -37,9 +48,13 @@ const handleValidator = require('../utils/handleValidator');
  *       404:
  *         description: WebCommerce not found
  */
-router.get('/webCommerce/view/:commerceCIF', commerceMiddleware, validateGetWebCommerceByCIF, handleValidator, webCommerceController.getWebCommerceByCIF);
-
-
+router.get(
+  "/webCommerce/view/:commerceCIF",
+  commerceMiddleware,
+  validateGetWebCommerceByCIF,
+  handleValidator,
+  webCommerceController.getWebCommerceByCIF
+);
 
 /**
  * @swagger
@@ -85,8 +100,13 @@ router.get('/webCommerce/view/:commerceCIF', commerceMiddleware, validateGetWebC
  *       401:
  *         description: Unauthorized
  */
-router.post('/webCommerce/create', commerceMiddleware, validateCreateWebCommerce, handleValidator, webCommerceController.createWebCommerce);
-
+router.post(
+  "/webCommerce/create",
+  commerceMiddleware,
+  validateCreateWebCommerce,
+  handleValidator,
+  webCommerceController.createWebCommerce
+);
 
 /**
  * @swagger
@@ -132,8 +152,13 @@ router.post('/webCommerce/create', commerceMiddleware, validateCreateWebCommerce
  *       404:
  *         description: WebCommerce not found
  */
-router.put('/webCommerce/update/:commerceCIF', commerceMiddleware, validateUpdateWebCommerce, handleValidator, webCommerceController.updateWebCommerce);
-
+router.put(
+  "/webCommerce/update/",
+  commerceMiddleware,
+  validateUpdateWebCommerce,
+  handleValidator,
+  webCommerceController.updateWebCommerce
+);
 
 /**
  * @swagger
@@ -165,8 +190,13 @@ router.put('/webCommerce/update/:commerceCIF', commerceMiddleware, validateUpdat
  *       404:
  *         description: WebCommerce not found
  */
-router.delete('/webCommerce/:commerceCIF', commerceMiddleware, validateArchiveOrDeleteWebCommerce, handleValidator, webCommerceController.archiveOrDeleteWebCommerce);
-
+router.delete(
+  "/webCommerce/:commerceCIF",
+  commerceMiddleware,
+  validateArchiveOrDeleteWebCommerce,
+  handleValidator,
+  webCommerceController.archiveOrDeleteWebCommerce
+);
 
 /**
  * @swagger
@@ -201,11 +231,18 @@ router.delete('/webCommerce/:commerceCIF', commerceMiddleware, validateArchiveOr
  *       404:
  *         description: WebCommerce not found
  */
-router.patch('/webCommerce/upload/:commerceCIF', commerceMiddleware, validateUploadWebCommerceImage, handleValidator, upload.single('image'), webCommerceController.uploadImage);
+router.patch(
+  "/webCommerce/upload/:commerceCIF",
+  commerceMiddleware,
+  validateUploadWebCommerceImage,
+  handleValidator,
+  upload.single("image"),
+  webCommerceController.uploadImage
+);
 
 /**
  * @swagger
- * /api/webcommerces/all:
+ * /api/webCommerce/all:
  *   get:
  *     summary: Get all webCommerces
  *     tags: [WebCommerce]
@@ -219,7 +256,7 @@ router.patch('/webCommerce/upload/:commerceCIF', commerceMiddleware, validateUpl
  *       404:
  *         description: WebCommerces not found
  */
-router.get('/webcommerces/all', webCommerceController.getAllWebCommerces);
+router.get("/webCommerce/all", webCommerceController.getAllWebCommerces);
 
 /**
  * @swagger
@@ -255,6 +292,115 @@ router.get('/webcommerces/all', webCommerceController.getAllWebCommerces);
  *       404:
  *         description: WebCommerce not found
  */
-router.post('/webcommerces/review/:commerceCIF', handleValidator,webCommerceController.createReview);
+router.post(
+  "/webCommerce/review/:commerceCIF",
+  authMiddleware,
+  validateCreateReview,
+  handleValidator,
+  webCommerceController.createReview
+);
+
+/**
+ * @swagger
+ * /api/webCommerce/city/{city}:
+ *   get:
+ *     summary: Get webCommerces by city
+ *     tags: [WebCommerce]
+ *     parameters:
+ *       - in: path
+ *         name: city
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Name of the city
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [scoring]
+ *         description: (Optional) Sort by scoring
+ *     responses:
+ *       200:
+ *         description: Successful retrieval of webCommerces
+ *       500:
+ *         description: Internal server error
+ */
+router.get(
+  "/webCommerce/city/:city",
+  validateGetWebCommercesByCity,
+  handleValidator,
+  webCommerceController.getWebCommercesByCity
+);
+
+/**
+ * @swagger
+ * /api/webCommerce/city/{city}/activity/{activity}:
+ *   get:
+ *     summary: Get webCommerces by city and activity
+ *     tags: [WebCommerce]
+ *     parameters:
+ *       - in: path
+ *         name: city
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Name of the city
+ *       - in: path
+ *         name: activity
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Activity type
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [scoring]
+ *         description: (Optional) Sort by scoring
+ *     responses:
+ *       200:
+ *         description: Successful retrieval of webCommerces
+ *       500:
+ *         description: Internal server error
+ */
+router.get(
+  "/webCommerce/city/:city/activity/:activity",
+  validateGetWebCommercesByCity,
+  validateGetWebCommercesByActivity,
+  handleValidator,
+  webCommerceController.getWebCommercesByCityAndActivity
+);
+
+/**
+ * @swagger
+ * /api/webCommerce/activity/{activity}:
+ *   get:
+ *     summary: Get webCommerces by activity
+ *     tags: [WebCommerce]
+ *     parameters:
+ *       - in: path
+ *         name: activity
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Activity type
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [scoring]
+ *         description: (Optional) Sort by scoring
+ *     responses:
+ *       200:
+ *         description: Successful retrieval of webCommerces
+ *       500:
+ *         description: Internal server error
+ */
+router.get(
+  "/webCommerce/activity/:activity",
+  validateGetWebCommercesByActivity,
+  handleValidator,
+  webCommerceController.getWebCommercesByActivity
+);
 
 module.exports = router;

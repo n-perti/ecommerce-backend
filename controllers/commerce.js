@@ -43,7 +43,7 @@ exports.saveCommerce = async (req, res) => {
     // Assign the token to the commerce
     commerce.token = token;
     await commerce.save();
-    res.json({ message: "Commerce saved", token });
+    res.json({ message: "Commerce saved", commerce, token });
   } catch (error) {
     res.status(500).send(error);
     notifySlack(`Error saving commerce: ${error}`);

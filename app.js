@@ -1,5 +1,5 @@
 const express = require("express");
-const dbConnect = require('./config/mongo');
+const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -17,7 +17,24 @@ require('./docs/swagger')(app);
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log("Servidor escuchando en el puerto " + port);
+const dbConnect = async () => {
+  const db_uri = process.env.NODE_ENV === 'test' ? process.env.DB_URI_TEST : process.env.DB_URI;
+  mongoose.set("strictQuery", false);
+  try {
+    await mongoose.connect(db_uri);
+    console.log("Conectado a la BD");
+  } catch (error) {
+    console.error("Error conectando a la BD:", error);
+  }
+};
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log("Servidor escuchando en el puerto " + port);
+    dbConnect();
+  });
+} else {
   dbConnect();
-});
+}
+
+module.exports = app; // Exporta la instancia de la aplicación

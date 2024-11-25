@@ -14,7 +14,6 @@ const commerceMiddleware = async (req, res, next) => {
   try {
     const decoded = verifyToken(authHeader);
     const commerce = await Commerce.findOne({ cif: decoded.cif });
-    console.log(!commerce);
     if (!commerce) {
       return res
         .status(401)

@@ -49,7 +49,6 @@ exports.createWebCommerce = async (req, res) => {
 };
 
 // Update a website
-
 exports.updateWebCommerce = async (req, res) => {
   try {
     const updatedWebCommerce = await webCommerceModel.findOneAndUpdate(
@@ -70,36 +69,32 @@ exports.updateWebCommerce = async (req, res) => {
   }
 };
 
-// Archive a website (logical delete) or Delete a website (physical delete)
-
+// Archive or Delete a webCommerce
 exports.archiveOrDeleteWebCommerce = async (req, res) => {
   try {
     const { action } = req.query;
+    const commerceCIF = req.commerce.cif;
 
-    const webCommerce = await webCommerceModel.findOne({
-      commerceCIF: req.commerce.cif,
-    });
+    const webCommerce = await webCommerceModel.findOne({ commerceCIF });
     if (!webCommerce) {
       return res.status(404).json({ message: "Web Commerce not found" });
     }
 
     if (action === "archive") {
       await webCommerceModel.findOneAndUpdate(
-        { commerceCIF: req.commerce.cif },
+        { commerceCIF },
         { isArchived: true },
         { new: true }
       );
       res.json({ message: "WebCommerce archived" });
     } else if (action === "delete") {
-      await webCommerceModel.findOneAndDelete({
-        commerceCIF: req.commerce.cif,
-      });
+      await webCommerceModel.findOneAndDelete({ commerceCIF });
       res.json({ message: "WebCommerce deleted" });
     } else {
       res.status(400).json({ message: "Invalid action" });
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ message: "Error in archiveOrDeleteWebCommerce" });
     notifySlack(`Error archiving or deleting web commerce: ${error}`);
   }
 };
@@ -144,17 +139,15 @@ exports.getAllWebCommerces = async (req, res) => {
 
 exports.createReview = async (req, res) => {
   try {
-    const { review, rating } = req.body;
-    const commerceCIF = req.params.commerceCIF;
+    const data = matchedData(req);
+    const { review, rating } = data;
+    const { commerceCIF } = req.params;
 
-    const webCommerce = await webCommerceModel.findOne({
-      commerceCIF: commerceCIF,
-    });
+    const webCommerce = await webCommerceModel.findOne({ commerceCIF });
     if (!webCommerce) {
       return res.status(404).json({ message: "Web Commerce not found" });
     }
 
-    // Add the new review
     const newReview = {
       review,
       rating,
@@ -162,7 +155,6 @@ exports.createReview = async (req, res) => {
     };
     webCommerce.usersReview.review.push(newReview);
 
-    // Recalculate the average rating
     const totalRatings = webCommerce.usersReview.review.length;
     const totalRatingSum = webCommerce.usersReview.review.reduce(
       (acc, review) => acc + review.rating,
@@ -180,3 +172,63 @@ exports.createReview = async (req, res) => {
     notifySlack(`Error creating review: ${error}`);
   }
 };
+
+
+
+// Get webCommerces by city
+exports.getWebCommercesByCity = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const { sortBy } = req.query; // Optional sorting by scoring
+
+    let query = webCommerceModel.find({ city: data.city });
+
+    if (sortBy === 'scoring') {
+      query = query.sort({ 'usersReview.scoring': -1 });
+    }
+
+    const webCommerces = await query.exec();
+    res.json(webCommerces);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+// Get webCommerces by city and activity
+exports.getWebCommercesByCityAndActivity = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const { sortBy } = req.query; // Optional sorting by scoring
+
+    let query = webCommerceModel.find({ city: data.city, activity: data.activity });
+
+    if (sortBy === 'scoring') {
+      query = query.sort({ 'usersReview.scoring': -1 });
+    }
+
+    const webCommerces = await query.exec();
+    res.json(webCommerces);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+// Get webCommerces by activity
+exports.getWebCommercesByActivity = async (req, res) => {
+  try {
+    const data = matchedData(req);
+    const { sortBy } = req.query; // Optional sorting by scoring
+
+    let query = webCommerceModel.find({ activity: data.activity });
+
+    if (sortBy === 'scoring') {
+      query = query.sort({ 'usersReview.scoring': -1 });
+    }
+
+    const webCommerces = await query.exec();
+    res.json(webCommerces);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+

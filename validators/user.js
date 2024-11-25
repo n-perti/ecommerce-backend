@@ -11,6 +11,12 @@ const userCreationValidator = [
   check("city").notEmpty().withMessage("City is required"),
   check("interest").notEmpty().withMessage("Interest is required"),
   check("allowOffers").isBoolean().withMessage("AllowOffers must be a boolean"),
+  check("role").optional().custom((value, { req }) => {
+    if (process.env.NODE_ENV === 'test' && value === 'admin') {
+      return true;
+    }
+    throw new Error("Role is not allowed");
+  }),
 ];
 
 const userUpdateValidator = [
@@ -36,8 +42,19 @@ const userLoginValidator = [
     .withMessage("Password must be at least 6 characters long"),
 ];
 
+// Validate user interests
+
+const validateUserInterest = [
+  check("interest")
+    .notEmpty()
+    .withMessage("Interest is required")
+    .isArray()
+    .withMessage("Interest must be an array of strings")
+];
+
 module.exports = {
   userCreationValidator,
   userUpdateValidator,
   userLoginValidator,
+  validateUserInterest,
 };
