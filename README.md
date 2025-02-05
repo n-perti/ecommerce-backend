@@ -103,7 +103,3 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 For questions or suggestions, please feel free to open an issue or contact me directly at [nicopertierra@hotmail.com](mailto:nicopertierra@hotmail.com).
-
----
-
-This README is designed to clearly present your project’s features, structure, and usage guidelines, making it attractive on GitHub and useful in your professional portfolio. Enjoy coding!
